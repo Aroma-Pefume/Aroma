@@ -21,7 +21,7 @@
   'use strict';
 
   // ── Config ────────────────────────────────────────────────────
-  const BACKEND_URL = 'http://localhost:3000';   // ← Change to your production URL when deploying
+  const BACKEND_URL = 'https://aroma-production.up.railway.app';   // ← Change to your production URL when deploying
 
   // ══════════════════════════════════════════════════════════════
   // 1. CONTACT FORM — override submit to call backend
