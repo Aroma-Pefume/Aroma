@@ -29,14 +29,19 @@ const {
 const app  = express();
 const PORT = process.env.PORT || 3000;
 
+// CORS — must be before express.json() and routes
+const corsOptions = {
+  origin: process.env.FRONTEND_ORIGIN || '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // handle preflight for all routes
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// CORS — allow only the configured frontend origin
-app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN || '*',
-  methods: ['GET', 'POST'],
-}));
 
 // ── Nodemailer transporter ────────────────────────────────────
 const transporter = nodemailer.createTransport({
