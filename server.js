@@ -40,10 +40,12 @@ app.use(cors({
 
 // ── Nodemailer transporter ────────────────────────────────────
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.resend.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,   // Use an App Password, not your Gmail password
+    user: 'resend',
+    pass: process.env.RESEND_API_KEY,
   },
 });
 
@@ -98,14 +100,14 @@ app.post('/api/contact', async (req, res) => {
     await sendEmailPair(
       // → Admin notification
       {
-        from:    `"Aroma Website" <${process.env.EMAIL_USER}>`,
+        from: '"Aroma Website" <onboarding@resend.dev>',
         to:      process.env.ADMIN_EMAIL,
         subject: `[AROMA] New Contact: ${name} — ${data.subject}`,
         html:    contactAdminEmail(data),
       },
       // → Customer confirmation
       {
-        from:    `"House of Aroma" <${process.env.EMAIL_USER}>`,
+        from: '"House of Aroma" <onboarding@resend.dev>',
         to:      email,
         subject: `We've received your message — House of Aroma`,
         html:    contactCustomerEmail(data),
@@ -167,14 +169,14 @@ app.post('/api/order', async (req, res) => {
     await sendEmailPair(
       // → Admin notification
       {
-        from:    `"Aroma Orders" <${process.env.EMAIL_USER}>`,
+        from: '"Aroma Orders" <onboarding@resend.dev>',
         to:      process.env.ADMIN_EMAIL,
         subject: `[AROMA] New Order #${orderId} — $${parseFloat(total).toFixed(2)} from ${name}`,
         html:    orderAdminEmail(data),
       },
       // → Customer order confirmation
       {
-        from:    `"House of Aroma" <${process.env.EMAIL_USER}>`,
+       from: '"House of Aroma" <onboarding@resend.dev>',
         to:      email,
         subject: `Order Confirmed #${orderId} — Thank you, ${name}`,
         html:    orderCustomerEmail(data),
