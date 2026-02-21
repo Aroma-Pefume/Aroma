@@ -57,8 +57,7 @@ const transporter = nodemailer.createTransport({
 // Verify transporter on startup
 transporter.verify((err) => {
   if (err) {
-    console.error('❌  Email transporter error:', err.message);
-    console.error('    → Check EMAIL_USER and EMAIL_PASS in your .env file.');
+    console.warn('⚠️  Email transporter warning:', err.message);
   } else {
     console.log('✅  Email transporter is ready.');
   }
